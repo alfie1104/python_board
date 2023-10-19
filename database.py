@@ -1,4 +1,4 @@
-import contextlib
+# import contextlib
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -30,7 +30,7 @@ Base = declarative_base()  # 반환된 Base는 데이터 베이스 모델을 구
 """
 
 
-@contextlib.contextmanager
+# @contextlib.contextmanager
 def get_db():
     db = SessionLocal()
     try:
