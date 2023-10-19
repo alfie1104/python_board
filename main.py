@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
+from domain.question import question_router
+
 """ 
 [참고 : https://wikidocs.net/175967]
 아래 코드를 통해 FastAPI실행 시 필요한 테이블을 모두 생성할 수 있으나
@@ -51,3 +53,6 @@ app.add_middleware(
 @app.get("/hello")
 def hello():
     return {"message": "Overall Spec."}
+
+
+app.include_router(question_router.router)  # question_router.py파일의 router 객체를 app객체에 등록
