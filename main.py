@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from domain.question import question_router
+from domain.answer import answer_router
 
 """ 
 [참고 : https://wikidocs.net/175967]
@@ -56,3 +57,4 @@ def hello():
 
 
 app.include_router(question_router.router)  # question_router.py파일의 router 객체를 app객체에 등록
+app.include_router(answer_router.router)

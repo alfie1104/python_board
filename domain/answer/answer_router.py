@@ -9,7 +9,9 @@ from domain.question import question_crud
 router = APIRouter(prefix="/api/answer")
 
 
-@router.post("/create/{question_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.post(
+    "/create/{question_id}", status_code=status.HTTP_204_NO_CONTENT
+)  # 출력으로 response_model 대신 status_code를 사용하였음. 이렇게 함으로써 204 응답코드를 리턴하여 응답없음을 나타낼 수 있음
 def answer_create(
     question_id: int,
     _answer_create: answer_schema.AnswerCreate,
