@@ -4,12 +4,12 @@
 
     const routes = {
         "/":Home,
-        "/detail/:question_id" : None ,
-        "/question-create":None,
-        "/question-modify/:question_id":None,
-        "/user-login":None,
-        "/user-create":None,
-        "/answer-modify/:answer_id":None,
+        // "/detail/:question_id" : null ,
+        // "/question-create":null,
+        // "/question-modify/:question_id":null,
+        // "/user-login":null,
+        // "/user-create":null,
+        // "/answer-modify/:answer_id":null,
     }
     
 </script>

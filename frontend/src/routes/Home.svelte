@@ -1,12 +1,12 @@
 <script>
+  import fastapi from "../lib/api";
+
     let question_list = []
 
     function get_question_list() {
-        fetch("http://localhost:8000/api/question/list").then((response) => {
-            response.json().then((json) => {
-                question_list = json
-            })
-        });
+        fastapi('get','/api/question/list',{},(json) => {
+            question_list = json
+        })
     }
 
     get_question_list()
