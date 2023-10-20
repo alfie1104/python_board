@@ -1,6 +1,7 @@
 import datetime
 
 from pydantic import BaseModel
+from domain.answer.answer_schema import Answer
 
 
 # API의 입출력을 validation하기 위한 pydantic용 스키마인 Question 스키마 선언
@@ -10,6 +11,7 @@ class Question(BaseModel):
     subject: str
     content: str
     create_date: datetime.datetime
+    answers: list[Answer] = []
 
     class Config:  # Question Model의 값을 자동으로 Question 스키마로 매핑하기 위해 orm_mode = True 적용
         orm_mode = True
