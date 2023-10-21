@@ -1,6 +1,6 @@
 import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from domain.answer.answer_schema import Answer
 
 
@@ -15,3 +15,14 @@ class Question(BaseModel):
 
     class Config:  # Question Model의 값을 자동으로 Question 스키마로 매핑하기 위해 orm_mode = True 적용
         orm_mode = True
+
+
+class QuestionCreate(BaseModel):
+    subject: str
+    content: str
+
+    @validator("subject", "content")  # 빈 문자열을 허용하지 않도록 subject와 content에 validation 적용
+    def not_empty(cls, v):
+        if not v or not v.strip():
+            raise ValueError("빈 값은 허용되지 않습니다.")
+        return v
