@@ -27,7 +27,7 @@ class Answer(Base):
     )  # Question : 참조할 모델명, backref : 역참조 설정
 
 
-class Model(Base):
+class User(Base):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True)
