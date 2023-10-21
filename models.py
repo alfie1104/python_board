@@ -25,3 +25,12 @@ class Answer(Base):
     question = relationship(
         "Question", backref="answers"
     )  # Question : 참조할 모델명, backref : 역참조 설정
+
+
+class Model(Base):
+    __tablename__ = "user"
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String, unique=True, nullable=False)
+    password = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False)
