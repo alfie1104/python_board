@@ -4,6 +4,7 @@
   import Detail from "./routes/Detail.svelte";
   import QuestionCreate from "./routes/QuestionCreate.svelte";
   import Navigation from "./components/Navigation.svelte";
+  import UserCreate from "./routes/UserCreate.svelte";
 
     const routes = {
         "/":Home,
@@ -11,7 +12,7 @@
         "/question-create":QuestionCreate,
         // "/question-modify/:question_id":null,
         // "/user-login":null,
-        // "/user-create":null,
+         "/user-create":UserCreate,
         // "/answer-modify/:answer_id":null,
     }
     
