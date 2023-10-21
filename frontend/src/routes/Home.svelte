@@ -26,13 +26,15 @@
             </tr>
         </thead>
         <tbody>            
+            {#each question_list as question,i}
             <tr>
-                {#each question_list as question,i}
                 <td>{i+1}</td>
                 <td><a use:link href="/detail/{question.id}">{question.subject}</a></td>
                 <td>{question.create_date}</td>
-                {/each}
             </tr>
+            {/each}
         </tbody>
     </table>
+
+    <a use:link href="/question-create" class="btn btn-primary">질문 등록하기</a>
 </div>

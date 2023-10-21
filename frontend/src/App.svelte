@@ -2,11 +2,12 @@
   import Router from "svelte-spa-router"
   import Home from "./routes/Home.svelte"
   import Detail from "./routes/Detail.svelte";
+  import QuestionCreate from "./routes/QuestionCreate.svelte";
 
     const routes = {
         "/":Home,
         "/detail/:question_id" : Detail,
-        // "/question-create":null,
+        "/question-create":QuestionCreate,
         // "/question-modify/:question_id":null,
         // "/user-login":null,
         // "/user-create":null,
