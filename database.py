@@ -1,6 +1,6 @@
 # import contextlib
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -15,6 +15,17 @@ SessionLocal = sessionmaker(
 )  # 데이터베이스에 접속하기 위해 필요한 클래스
 
 Base = declarative_base()  # 반환된 Base는 데이터 베이스 모델을 구성할 때 활용함
+
+# SQLite 데이터베이스로 ORM을 사용할때 발생하는 문제점 해결을 위해 아래 naming_convention을 Base.metadata에 적용
+# index, unique key, primary key등에 대한 규칙을 새롭게 설정하였음(데이터베이스에서 디폴트값으로 명명되던 이름을 수동으로 설정한 것)
+naming_convention = {
+    "ix": "ix_%(column_0_label)s",
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(column_0_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s",
+}
+Base.metadata = MetaData(naming_convention=naming_convention)
 
 
 """
