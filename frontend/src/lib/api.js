@@ -1,3 +1,5 @@
+import qs from "qs";
+
 /***
  * @name fastapi
  * @param operation 데이터 처리 방법 (예 : get, post, put, delete)
@@ -16,6 +18,12 @@ const fastapi = (
   let method = operation;
   let content_type = "application/json";
   let body = JSON.stringify(params); //object형태의 param을 문자열로 변경
+
+  if (operation === "login") {
+    method = "post";
+    content_type = "application/x-www-form-urlencoded";
+    body = qs.stringify(params);
+  }
 
   let _url = import.meta.env.VITE_SERVER_URL + url;
   if (method === "get") {
