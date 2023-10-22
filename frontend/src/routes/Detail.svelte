@@ -2,7 +2,7 @@
   import fastapi from "../lib/api";
   import Error from "../components/Error.svelte"
   import {push} from "svelte-spa-router"
-  import {is_login} from "../lib/store"
+  import {is_login, username} from "../lib/store"
   import moment from "moment/min/moment-with-locales"
   moment.locale('ko')
 
@@ -44,8 +44,11 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{question.content}</div>
             <div class="d-flex justify-content-end">
-                <div class="badge bg-light text-dark p-2">
-                    {moment(question.create_date).format("YYYY년 MM월 MM일 hh:mm a")}
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">
+                        {question.user?question.user.username : ""}
+                    </div>
+                    <div>{moment(question.create_date).format("YYYY년 MM월 MM일 hh:mm a")}</div>
                 </div>
             </div>
         </div>
@@ -64,8 +67,13 @@
                 {answer.content}
             </div>
             <div class="d-flex justify-content-end">
-                <div class="badge bg-light text-dark p-2">
-                    {moment(answer.create_date).format("YYYY년 MM월 MM일 hh:mm a")}
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">
+                        {answer.user? answer.user.username :""}
+                    </div>
+                    <div>
+                        {moment(answer.create_date).format("YYYY년 MM월 MM일 hh:mm a")}
+                    </div>
                 </div>
             </div>
         </div>

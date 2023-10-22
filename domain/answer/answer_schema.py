@@ -1,5 +1,6 @@
 import datetime
 from pydantic import BaseModel, validator
+from domain.user.user_schema import User
 
 
 class AnswerCreate(BaseModel):
@@ -18,6 +19,7 @@ class Answer(BaseModel):
     id: int
     content: str
     create_date: datetime.datetime
+    user: User | None
 
     class Config:
         orm_mode = True  # DB 모델의 속성을 스키마에 매핑하기 위해 orm_mode를 True로 설정
