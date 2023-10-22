@@ -1,7 +1,7 @@
 from datetime import timedelta, datetime
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import OAuth2PasswordRequestForm
-from jose import jwt
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from starlette import status
 
@@ -12,6 +12,7 @@ from domain.user.user_crud import pwd_context
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 SECRET_KEY = "b9238b705df439aaa0a4f36027992075b82989bf60b79db8b5244b285028fb2e"  # 터미널에서 openssl rand -hex 32로 생성
 ALGORITHM = "HS256"
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/user/login")
 
 router = APIRouter(prefix="/api/user")
 
@@ -55,3 +56,27 @@ def login_for_access_token(
         "token_type": "bearer",
         "username": user.username,
     }
+
+
+def get_current_user(
+    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
+):
+    # 매개변수인 token은 FastAPI의 security 패키지에 있는 OAuth2PasswordBearer에 의해 자동 매핑됨
+    # OAuth2PasswordBearer(tokenUrl="/api/user/login")에서 사용한 tokenUrl은 로그인 API의 URL을 의미함
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    else:
+        user = user_crud.get_user(db, username=username)
+        if user is None:
+            raise credentials_exception
+        return user

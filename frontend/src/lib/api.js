@@ -1,4 +1,7 @@
 import qs from "qs";
+import { access_token, username, is_login } from "./store";
+import { get } from "svelte/store";
+import { push } from "svelte-spa-router";
 
 /***
  * @name fastapi
@@ -37,6 +40,11 @@ const fastapi = (
     },
   };
 
+  const _access_token = get(access_token); //fastapi 함수는 svelte 컴포넌트가 아니므로 $기호로 참조할 수 없고 get함수를 이용하여 값을 읽어와야함. 마찬가지로 값을 저장할때는 access_token.set 처럼 set함수를 활용해야함
+  if (_access_token) {
+    options.headers["Authorization"] = "Bearer " + _access_token;
+  }
+
   if (method !== "get") {
     options["body"] = body;
   }
@@ -57,6 +65,14 @@ const fastapi = (
           //성공
           if (success_callback) {
             success_callback(json);
+          } else if (operation !== "login" && response.status === 401) {
+            //token time out
+            //operation이 login인 경우에는 아이디 또는 비밀번호를 틀리게 입력했을 때 401 오류가 발생하므로 제외했음
+            access_token.set("");
+            username.set("");
+            is_login.set(false);
+            alert("로그인이 필요합니다.");
+            push("/user-login");
           }
         } else {
           //실패

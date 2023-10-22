@@ -2,6 +2,7 @@
   import fastapi from "../lib/api";
   import Error from "../components/Error.svelte"
   import {push} from "svelte-spa-router"
+  import {is_login} from "../lib/store"
   import moment from "moment/min/moment-with-locales"
   moment.locale('ko')
 
@@ -74,7 +75,9 @@
     <!-- 답변 등록 -->
     <Error error={error}/>
     <form method="post" class="my-3">
-        <textarea class="form-control" rows="15" bind:value={content}></textarea>
-        <input class="btn btn-primary" type="submit" value="답변등록" on:click="{post_answer}">
+        <div class="mb-3">
+            <textarea class="form-control" rows="10" bind:value={content} disabled={$is_login ? "" : "disabled"}></textarea>
+        </div>
+        <input class="btn btn-primary {$is_login ? "" : "disabled"}" type="submit" value="답변등록" on:click="{post_answer}">
     </form>
 </div>

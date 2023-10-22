@@ -11,6 +11,8 @@ class Question(Base):
     subject = Column(String, nullable=False)
     content = Column(Text, nullable=False)
     create_date = Column(DateTime, nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    user = relationship("User", backref="question_users")
 
 
 class Answer(Base):
@@ -25,6 +27,8 @@ class Answer(Base):
     question = relationship(
         "Question", backref="answers"
     )  # Question : 참조할 모델명, backref : 역참조 설정
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    user = relationship("User", backref="answer_users")
 
 
 class User(Base):

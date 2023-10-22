@@ -6,7 +6,8 @@ from starlette import status
 # from database import SessionLocal
 from database import get_db
 from domain.question import question_schema, question_crud
-from models import Question
+from domain.user.user_router import get_current_user
+from models import User
 
 router = APIRouter(prefix="/api/question")
 
@@ -55,6 +56,10 @@ def question_detail(question_id: int, db: Session = Depends(get_db)):
 # /create 라우터의 경우 응답할 내용이 없으므로 응답코드 204를 리턴하여 "응답 없음"을 표시
 @router.post("/create", status_code=status.HTTP_204_NO_CONTENT)
 def question_create(
-    _question_create: question_schema.QuestionCreate, db: Session = Depends(get_db)
+    _question_create: question_schema.QuestionCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    question_crud.create_question(db=db, question_create=_question_create)
+    question_crud.create_question(
+        db=db, question_create=_question_create, user=current_user
+    )
