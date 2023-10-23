@@ -20,6 +20,11 @@ class Answer(BaseModel):
     content: str
     create_date: datetime.datetime
     user: User | None
+    question_id: int
 
     class Config:
         orm_mode = True  # DB 모델의 속성을 스키마에 매핑하기 위해 orm_mode를 True로 설정
+
+
+class AnswerUpdate(Answer):
+    answer_id: int
