@@ -1,7 +1,7 @@
 <script>
   import fastapi from "../lib/api";
   import Error from "../components/Error.svelte"
-  import {push} from "svelte-spa-router"
+  import {link, push} from "svelte-spa-router"
   import {is_login, username} from "../lib/store"
   import moment from "moment/min/moment-with-locales"
   moment.locale('ko')
@@ -34,6 +34,20 @@
         })
     }
 
+    function delete_question(_question_id){
+        if(window.confirm("정말로 삭제하시겠습니까?")){
+            let url = "/api/question/delete"
+            let params = {
+                question_id : _question_id
+            }
+            fastapi('delete',url,params,(json)=>{
+                push('/')
+            }, (err_json) => {
+                error = err_json
+            })
+        }
+    }
+
     get_question()
 </script>
 
@@ -50,6 +64,15 @@
                     </div>
                     <div>{moment(question.create_date).format("YYYY년 MM월 MM일 hh:mm a")}</div>
                 </div>
+            </div>
+            <div class="my-3">
+                {#if question.user && $username === question.user.username}
+                <a use:link href="/question-modify/{question.id}" class="btn btn-sm btn-outline-secondary">수정</a>
+                {/if}
+                <button class="btn btn-sm btn-outline-secondary"
+                    on:click={() => delete_question(question.id)}>
+                    삭제
+                </button>
             </div>
         </div>
     </div>

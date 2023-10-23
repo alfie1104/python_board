@@ -33,3 +33,11 @@ class QuestionCreate(BaseModel):
 class QuestionList(BaseModel):
     total: int = 0
     question_list: list[Question] = []
+
+
+class QuestionUpdate(QuestionCreate):
+    question_id: int
+
+
+class QuestionDelete(BaseModel):
+    question_id: int
